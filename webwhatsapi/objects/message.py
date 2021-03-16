@@ -99,6 +99,10 @@ class MediaMessage(Message):
 
     def save_media(self, path, force_download=False):
         # gets full media
+        
+        if self.client_url is None:
+            self.client_url = self._js_obj.get("deprecatedMms3Url", None)
+       
         filename = os.path.join(path, self.filename)
         ioobj = self.driver.download_media(self, force_download)
         with open(filename, "wb") as f:
